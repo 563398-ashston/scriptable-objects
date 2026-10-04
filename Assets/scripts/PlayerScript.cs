@@ -6,8 +6,13 @@ public class PlayerScript : MonoBehaviour
     public SpriteRenderer sr;
     public Rigidbody2D rb;
 
+    //player values
     public float moveSpeed = 6f;
     public float jumpStrength = 7f;
+    
+
+
+    public PlayerInformation playerInformation;
 
     StateMachine sm;
 
@@ -18,7 +23,9 @@ public class PlayerScript : MonoBehaviour
     public InputAction jumpAction;
     public InputAction interactAction;
     public InputAction attackAction;
-    
+    public InputAction scoreUpAction;
+    public InputAction scoreDownAction;
+
 
 
     private void Start()
@@ -29,6 +36,7 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
+
         sm.Init(sm.idleState); //this will be the first state to run 
 
         //initialise the actions
@@ -36,17 +44,24 @@ public class PlayerScript : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
         jumpAction = InputSystem.actions.FindAction("Jump");
         attackAction = InputSystem.actions.FindAction("Attack");
-
+        scoreUpAction = InputSystem.actions.FindAction("ScoreUp");
+        scoreDownAction = InputSystem.actions.FindAction("ScoreDown");
 
     }
 
     private void Update()
     {
-        //do not put any of your own methods here - they go in the individual state files
         sm.Update();
 
-        //UIscript.ui.DrawText("Current state= " + sm.currentState + "  Last state= " + sm.lastState);
+        if (scoreDownAction.WasPressedThisFrame())
+        {
+            playerInformation.score = playerInformation.score - 2;
+        }
 
+        if (scoreUpAction.WasPressedThisFrame())
+        {
+            playerInformation.score = playerInformation.score + 2;
+        }
     }
 
     private void FixedUpdate()
@@ -68,7 +83,4 @@ public class PlayerScript : MonoBehaviour
     {
         sm.currentState.OnTriggerExit2D(collision);
     }
-
-
-
 }

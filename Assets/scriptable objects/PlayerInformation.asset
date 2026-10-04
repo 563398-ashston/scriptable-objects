@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab0c0073630ff0429e5871be6a8039b, type: 3}
   m_Name: PlayerInformation
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInformation
+  playerName: Timmy
+  score: 30
+  health: 100
+  lives: 3
